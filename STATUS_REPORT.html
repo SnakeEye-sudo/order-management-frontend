@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Order Management System &mdash; Build &amp; Deployment Status Report</title>
+<style>
+:root{--indigo:#6366f1;--purple:#a855f7;--pink:#ec4899;--ink:#1e1b4b;--muted:#64748b;--line:#e9d5ff;--ok:#059669;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;color:var(--ink);background:linear-gradient(135deg,#eef2ff,#fdf2f8,#ecfeff);line-height:1.6;}
+.wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px;}
+header.hero{background:linear-gradient(120deg,#4f46e5,#9333ea,#db2777);color:#fff;border-radius:22px;padding:38px 36px;box-shadow:0 20px 50px -20px rgba(124,58,237,.6);}
+header.hero h1{margin:0 0 6px;font-size:30px;letter-spacing:-.02em;}
+header.hero p{margin:4px 0;opacity:.92;}
+.badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);padding:3px 12px;border-radius:999px;font-size:13px;margin-top:10px;}
+.meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;}
+.meta div{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 16px;font-size:14px;}
+.meta strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;}
+section{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px 30px;margin-top:24px;box-shadow:0 12px 30px -22px rgba(124,58,237,.5);}
+section h2{margin:0 0 4px;font-size:21px;}
+.pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;}
+.pill.user{background:#ede9fe;color:#6d28d9;}
+.pill.live{background:#dcfce7;color:var(--ok);}
+.sub{color:var(--muted);margin:0 0 18px;font-size:14px;}
+h3{margin:22px 0 8px;font-size:16px;color:#4338ca;}
+ul{margin:8px 0;padding-left:20px;}
+li{margin:5px 0;}
+a{color:#7c3aed;font-weight:600;text-decoration:none;}
+a:hover{text-decoration:underline;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #f1e8ff;}
+th{background:#faf5ff;color:#6d28d9;font-size:12px;text-transform:uppercase;letter-spacing:.05em;}
+code{background:#f5f3ff;color:#7c3aed;padding:2px 7px;border-radius:6px;font-size:13px;}
+.linkcard{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;}
+.linkcard a{background:linear-gradient(92deg,#6366f1,#a855f7);color:#fff;padding:10px 18px;border-radius:12px;}
+.linkcard a:hover{text-decoration:none;opacity:.92;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:34px;}
+.tag{display:inline-block;font-size:12px;background:#f0fdf4;color:var(--ok);border:1px solid #bbf7d0;padding:2px 8px;border-radius:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<h1>Order Management System &mdash; Build &amp; Deployment Status Report</h1>
+<p>End-to-end engineering log covering the backend API, production infrastructure, and the frontend storefront.</p>
+<span class="badge">Internal report &middot; prepared by Sangam Krishna</span>
+<div class="meta">
+<div><strong>Report Date</strong> 02 June 2026</div>
+<div><strong>Overall Status</strong> All systems live in production</div>
+<div><strong>Repositories</strong> 2 (backend + frontend)</div>
+<div><strong>Owners</strong> Rimjhim (API) &middot; Sangam (Web)</div>
+</div>
+</header>
+
+<section>
+<h2>Executive Summary</h2>
+<p class="sub">A snapshot of everything that was shipped across both repositories during this work cycle.</p>
+<p>The Order Management System is now fully operational from end to end. The backend REST API, owned by Rimjhim under the <code>rimjhimkrishna</code> account, has been deployed to production on Railway together with a managed PostgreSQL database and an Apache Kafka event-streaming cluster. The React storefront, owned by Sangam under the <code>SnakeEye-sudo</code> account, has been connected to the live API, redeployed on Vercel, seeded with a working product catalogue, and given a refreshed, more vibrant visual identity. A complete registration &rarr; login &rarr; catalogue &rarr; order journey has been verified directly against the live environment.</p>
+</section>
+
+<section>
+<h2>Backend API <span class="pill user">rimjhimkrishna</span> <span class="pill live">Live</span></h2>
+<p class="sub">Spring Boot 3 &middot; Java 17 &middot; PostgreSQL &middot; Apache Kafka &middot; Docker</p>
+<h3>What was delivered</h3>
+<ul>
+<li>Provisioned a new Railway project (<em>perpetual-grace</em>) and connected it to the backend repository.</li>
+<li>Modernised the multi-stage <code>Dockerfile</code> to use current, supported base images so the production build succeeds.</li>
+<li>Added a managed <strong>PostgreSQL</strong> database and wired the application to it through Railway service references.</li>
+<li>Stood up an <strong>Apache Kafka</strong> broker in KRaft mode (no ZooKeeper) for the order event stream, including topic provisioning and a Dead Letter Topic for resilience.</li>
+<li>Configured all runtime environment variables: database URL/credentials, Kafka bootstrap server, JWT secret and token expiry.</li>
+<li>Hardened the <strong>CORS</strong> policy so the deployed storefront can call the API securely from its own origin.</li>
+<li>Generated a public production domain and confirmed the Actuator health endpoint reports <code>UP</code>.</li>
+<li>Seeded the catalogue with eight sample products through the authenticated admin API.</li>
+<li>Updated the project README with a dedicated <em>Live Demo</em> section linking to the running services.</li>
+</ul>
+<h3>Key links</h3>
+<div class="linkcard">
+<a href="https://github.com/rimjhimkrishna/order-management-api">Backend repository</a>
+<a href="https://order-management-api-production-1970.up.railway.app/actuator/health">API health check</a>
+<a href="https://order-management-api-production-1970.up.railway.app/api/v1">API base URL</a>
+</div>
+</section>
+
+<section>
+<h2>Frontend Storefront <span class="pill user">SnakeEye-sudo</span> <span class="pill live">Live</span></h2>
+<p class="sub">React &middot; Vite &middot; Tailwind CSS &middot; deployed on Vercel</p>
+<h3>What was delivered</h3>
+<ul>
+<li>Pointed the storefront at the live production API and redeployed it on Vercel.</li>
+<li>Verified the full authenticated flow against the live backend: register a user, log in, browse the catalogue, and place an order.</li>
+<li>Reworked the visual design into a more vibrant, modern theme &mdash; an animated aurora background, gradient brand and headings, gradient product cards with hover lift, gradient call-to-action buttons, and refreshed stock badges and inputs.</li>
+<li>Confirmed the catalogue now renders the eight seeded products with live pricing and stock levels.</li>
+</ul>
+<h3>Key links</h3>
+<div class="linkcard">
+<a href="https://github.com/SnakeEye-sudo/order-management-frontend">Frontend repository</a>
+<a href="https://order-management-frontend-kohl.vercel.app">Live storefront</a>
+</div>
+</section>
+
+<section>
+<h2>Production Environment</h2>
+<p class="sub">Where each piece of the system currently runs.</p>
+<table>
+<tr><th>Component</th><th>Platform</th><th>Status</th></tr>
+<tr><td>Backend REST API</td><td>Railway</td><td><span class="tag">Online</span></td></tr>
+<tr><td>PostgreSQL database</td><td>Railway</td><td><span class="tag">Online</span></td></tr>
+<tr><td>Apache Kafka broker</td><td>Railway</td><td><span class="tag">Online</span></td></tr>
+<tr><td>Frontend storefront</td><td>Vercel</td><td><span class="tag">Online</span></td></tr>
+</table>
+</section>
+
+<section>
+<h2>Verification</h2>
+<p class="sub">How the system was confirmed working.</p>
+<ul>
+<li>API health endpoint returns a healthy status from the public production URL.</li>
+<li>An admin account was created and used to publish the product catalogue via the secured endpoints.</li>
+<li>The live storefront successfully registered a user, logged in, and loaded the authenticated catalogue, confirming the cross-origin requests are accepted.</li>
+<li>Catalogue, pricing and stock figures match between the API responses and the rendered storefront.</li>
+</ul>
+</section>
+
+<section>
+<h2>Notes &amp; Follow-ups</h2>
+<ul>
+<li>The Railway environment is currently on trial credit; a billing plan will be needed to keep the services running beyond the trial window.</li>
+<li>Optional next steps: add a custom domain, expand the seeded catalogue, and add order-history sample data.</li>
+</ul>
+</section>
+
+<footer>Internal status report &middot; Order Management System &middot; Prepared by Sangam Krishna, 02 June 2026.</footer>
+</div>
+</body>
+</html>

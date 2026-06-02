@@ -2,8 +2,134 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background-color: #f9fafb;
+@layer base {
+  body {
+    margin: 0;
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #1e1b4b;
+    min-height: 100vh;
+    background: linear-gradient(125deg, #eef2ff 0%, #fdf2f8 35%, #ecfeff 70%, #f5f3ff 100%);
+    background-size: 300% 300%;
+    animation: auroraBg 18s ease infinite;
+  }
+}
+
+@keyframes auroraBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ===== Vibrant Navbar ===== */
+nav.bg-white {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  box-shadow: 0 4px 24px -12px rgba(99, 102, 241, 0.45) !important;
+  border-bottom: 1px solid rgba(199, 210, 254, 0.6);
+}
+
+/* Brand wordmark -> gradient text */
+nav a.text-indigo-600 {
+  background: linear-gradient(92deg, #6366f1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+  letter-spacing: -0.02em;
+}
+
+/* Active nav pill */
+nav a.bg-indigo-600 {
+  background: linear-gradient(92deg, #6366f1, #8b5cf6) !important;
+  box-shadow: 0 6px 16px -6px rgba(139, 92, 246, 0.7);
+}
+
+/* ===== Vibrant Cards ===== */
+.bg-white.rounded-2xl {
+  background: linear-gradient(160deg, #ffffff 0%, #faf5ff 55%, #fdf2f8 100%) !important;
+  border: 1px solid rgba(196, 181, 253, 0.55);
+  box-shadow: 0 12px 30px -16px rgba(124, 58, 237, 0.4) !important;
+  animation: floatUp 0.5s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-white.rounded-2xl::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(92deg, #6366f1, #a855f7, #ec4899, #f97316);
+}
+
+.bg-white.rounded-2xl:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 26px 50px -18px rgba(124, 58, 237, 0.55) !important;
+  border-color: rgba(167, 139, 250, 0.9);
+}
+
+/* ===== Gradient Buttons ===== */
+button.bg-indigo-600 {
+  background: linear-gradient(92deg, #6366f1 0%, #a855f7 50%, #ec4899 100%) !important;
+  background-size: 200% auto;
+  box-shadow: 0 10px 22px -10px rgba(168, 85, 247, 0.75);
+  transition: background-position 0.5s ease, transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+button.bg-indigo-600:hover:not(:disabled) {
+  background-position: right center !important;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -10px rgba(236, 72, 153, 0.7);
+}
+
+/* ===== Page headings -> gradient ===== */
+h1 {
+  background: linear-gradient(92deg, #4f46e5, #9333ea, #db2777);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: -0.03em;
+}
+
+/* ===== Price accent ===== */
+.text-indigo-600:not(nav a):not(button) {
+  background: linear-gradient(92deg, #6366f1, #db2777);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: 800;
+}
+
+/* ===== Stock badge pop ===== */
+.bg-green-100 {
+  background: linear-gradient(92deg, #d1fae5, #ccfbf1) !important;
+  color: #047857 !important;
+  box-shadow: 0 2px 8px -3px rgba(16, 185, 129, 0.5);
+  font-weight: 600;
+}
+
+/* ===== Inputs ===== */
+input.border, select.border {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(196, 181, 253, 0.7) !important;
+  box-shadow: 0 4px 14px -8px rgba(124, 58, 237, 0.4);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+input.border:focus, select.border:focus {
+  border-color: #a855f7 !important;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
 }

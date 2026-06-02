@@ -1,71 +1,93 @@
-# Order Management Frontend
+<div align="center">
 
-A modern React frontend for the [Order Management API](https://github.com/rimjhimkrishna/order-management-api) backend. Built with **React + Vite + Tailwind CSS**.
+# 🛍️ OrderHub
 
-This is a separate repository that connects to the backend over HTTP. The two projects are developed independently (multi-repo setup).
+### A modern, responsive storefront and admin dashboard for the Order Management System
 
-## Features
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-- JWT authentication (register / login) with token persistence
-- Product catalog with search, price sorting, and live stock badges
-- Cart and one-click order placement
-- "My Orders" page with a visual status timeline (PENDING -> CONFIRMED -> SHIPPED -> DELIVERED) and order cancellation
-- Admin dashboard: product CRUD, order status management, and summary stats (orders, revenue, low stock)
-- Responsive design, loading skeletons, and toast feedback
+**[🔗 Live Demo](https://order-management-frontend-kohl.vercel.app)** &nbsp;·&nbsp; **[⚙️ Backend API](https://github.com/rimjhimkrishna/order-management-api)**
 
-## Tech Stack
+</div>
 
-- React 18 (Vite)
-- React Router v6
-- Axios (JWT interceptor)
-- Tailwind CSS
+---
 
-## Project Structure
+<div align="center">
+  <img src="./login.png" alt="OrderHub login screen" width="800" />
+</div>
 
-```
-src/
-  api/        client.js (Axios + JWT), services.js (endpoints)
-  context/    AuthContext.jsx (auth state)
-  components/ Navbar.jsx
-  pages/      Login, Register, Products, Orders, AdminDashboard
-  App.jsx     routes + protected routes
-  main.jsx    entry
-```
+## Overview
 
-## Getting Started
+OrderHub is the web client for the Order Management System REST API. It gives customers a clean shopping experience and gives admins full control over the catalog and order pipeline. The app is fully decoupled from the backend and communicates over a secured, token-based REST interface.
 
-1. Install dependencies:
+## ✨ Features
+
+- **Secure authentication** — register and sign in with JWT, persisted across sessions
+- **Product catalog** — searchable, sortable grid with real-time stock indicators
+- **Shopping cart** — adjust quantities and place orders in a single click
+- **Order tracking** — a visual status timeline (Pending → Confirmed → Shipped → Delivered) with one-tap cancellation
+- **Admin dashboard** — create, edit, and remove products, manage order statuses, and monitor revenue and low-stock alerts at a glance
+- **Polished UX** — responsive layout, loading skeletons, toast notifications, and protected routes
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+| --- | --- |
+| Framework | React 18 + Vite |
+| Routing | React Router v6 |
+| Styling | Tailwind CSS |
+| HTTP | Axios (with JWT interceptor) |
+| Hosting | Vercel |
+
+## 🚀 Getting Started
+
+#### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-2. Create a `.env` file (copy from `.env.example`) and set the backend URL:
+#### 2. Configure the environment
+
+Copy `.env.example` to `.env` and point it at your backend:
 
 ```
 VITE_API_URL=http://localhost:8080/api/v1
 ```
 
-3. Start the dev server:
+#### 3. Run the dev server
 
 ```bash
 npm run dev
 ```
 
-The app runs at http://localhost:5173
+The app will be available at `http://localhost:5173`.
 
-## Connecting to the Backend
+## 🔌 Connecting to the Backend
 
-This frontend talks to the Spring Boot backend at `VITE_API_URL`. Run the backend locally per its README (`docker-compose up`), which serves it on port 8080.
+OrderHub talks to the [Order Management API](https://github.com/rimjhimkrishna/order-management-api), a Spring Boot service. Run the backend locally (per its README) and it will be served on port 8080.
 
-### CORS (backend side)
+On login, the API returns a JWT which is stored client-side and automatically attached as an `Authorization: Bearer` header on every subsequent request. To allow the browser to reach the API, the backend's CORS configuration must include this app's origin (e.g. `http://localhost:5173` in development, and the deployed domain in production).
 
-The backend must allow this frontend's origin. In the backend's `SecurityConfig.java` CORS configuration, add the frontend origin (e.g. `http://localhost:5173` for local dev, and the deployed URL in production). Without this, the browser will block requests with a CORS error.
+## 📁 Project Structure
 
-### Auth flow
+```
+src/
+├── api/         # Axios client + endpoint services
+├── components/  # Shared UI (Navbar)
+├── context/     # Auth state provider
+├── pages/       # Login, Register, Products, Orders, Admin
+├── App.jsx      # Routes + route guards
+└── main.jsx     # App entry
+```
 
-Login returns a JWT token, which is stored in localStorage and automatically attached as `Authorization: Bearer <token>` on every request by the Axios interceptor in `src/api/client.js`.
+## 📦 Deployment
 
-## License
+The app is deployed on Vercel and redeploys automatically on every push to `main`. A single-page rewrite rule keeps client-side routes working on hard refresh.
 
-MIT
+## 📄 License
+
+Released under the [MIT License](LICENSE).
